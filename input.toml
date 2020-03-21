@@ -1,0 +1,20 @@
+[grid]
+ix = 256
+
+[order]
+order = 2
+
+[region]
+x1 = 1.0
+x0 = 0.0
+
+[time]
+cfl = 0.4
+dtmin = 1.0e-20
+nstop = 1000000
+tint = 0.01
+tstop = 1.0
+
+[boundary]
+xl = 'free'
+xr = 'free'
