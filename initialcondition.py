@@ -8,6 +8,7 @@ from xurboundary import XUrFreeBoundary
 
 def DW1aShockTube(ixmax, order):
     V = np.zeros((8, ixmax))
+    
     for i in range(int(ixmax/2)):
         V[0][i]=1.08
         V[1][i]=1.2

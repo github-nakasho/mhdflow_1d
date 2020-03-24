@@ -37,6 +37,6 @@ if __name__ == '__main__':
         print('nstep = '+str(nstep))
         dt = SetDt(V, grid['minlength'], input_params['time']['cfl'])
         print('dt = '+str(dt))
-        V = TVDRK(U, V, grid['ixmax'], grid['dx'], dt, input_params['order']['order'])
+        U, V = TVDRK(U, V, grid['ixmax'], grid['dx'], dt, input_params['order']['order'])
         t += dt
     # ---------- main loop

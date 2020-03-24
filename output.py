@@ -4,5 +4,5 @@ import numpy as np
 
 def Output(V, nout):
     filename = str(nout) + '.txt'
-    np.savetxt(filename, V[0], delimiter=',')
+    np.savetxt(filename, V[7], delimiter=',')
     
