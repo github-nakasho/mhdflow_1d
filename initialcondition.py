@@ -3,11 +3,10 @@
 import numpy as np
 from saveinitial import SaveInitial
 from vtou import VtoU
-from xleftboundary import XLeftFreeBoundary
-from xrightboundary import XRightFreeBoundary
+from xulboundary import XUlFreeBoundary
+from xurboundary import XUrFreeBoundary
 
 def DW1aShockTube(ixmax, order):
-    U = np.zeros((8, ixmax))
     V = np.zeros((8, ixmax))
     for i in range(int(ixmax/2)):
         V[0][i]=1.08
@@ -27,8 +26,8 @@ def DW1aShockTube(ixmax, order):
         V[5][i]=4.0/np.sqrt(4*np.pi)
         V[6][i]=2.0/np.sqrt(4*np.pi)
         V[7][i]=1.0
-    U = VtoU(U, V)
-    U = XLeftFreeBoundary(U, order)
-    U = XRightFreeBoundary(U, ixmax, order)
+    U = VtoU(V)
+    U = XUlFreeBoundary(U, order)
+    U = XUrFreeBoundary(U, ixmax, order)
     Uinitial, Vinitial = SaveInitial(U, V)
     return U, V

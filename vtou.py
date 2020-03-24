@@ -1,6 +1,9 @@
 #!/usr/bin/env/ python3
 
-def VtoU(U, V):
+import numpy as np
+
+def VtoU(V):
+    U = np.zeros(V.shape)    
     gm = 5.0 / 3.0
     oneogm1 = 1.0 / (gm-1)
     v2 = V[1] * V[1] + V[2] * V[2] + V[3] * V[3]

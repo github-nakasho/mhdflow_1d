@@ -3,6 +3,7 @@
 import toml
 from grid import Grid
 from initialcondition import DW1aShockTube
+from output import Output
 from setdt import SetDt
 from tvdrk import TVDRK
 
@@ -23,18 +24,19 @@ if __name__ == '__main__':
     t = 0.0
     tout = 0.0
     # main loop ----------
-    while nstep < nstop + 1:
+    while nstep < input_params['time']['nstop']:
+        if t >= tout:
+            print('time = '+str(t))
+            Output(V, nout)
+            tout += input_params['time']['tint']
+            nout += 1
+        if t >= input_params['time']['tstop']:
+            print('time is over '+str(input_params['time']['tstop']))
+            break
         nstep += 1
         print('nstep = '+str(nstep))
         dt = SetDt(V, grid['minlength'], input_params['time']['cfl'])
         print('dt = '+str(dt))
-        TVDRK(U, V, dt)
+        V = TVDRK(U, V, grid['ixmax'], grid['dx'], dt, input_params['order']['order'])
         t += dt
-        if t > tout:
-            print('time = '+str(t))
-			tout += input_params['time']['tout']
-			nout += 1
-		}
-		if t > tstop:
-			print('time is over '+str(tstop))
     # ---------- main loop

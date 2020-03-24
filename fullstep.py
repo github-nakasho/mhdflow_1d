@@ -11,8 +11,7 @@ from xurboundary import XUrFreeBoundary
 from xvlboundary import XVlFreeBoundary
 from xvrboundary import XVrFreeBoundary
 
-def HalfStep(U, V, ixmax, dx, dt, order):
-    U1 = np.zeros(U.shape)
+def FullStep(U, U1, V, ixmax, dx, dt, order):
     Vl, Vr = Minmod(V, ixmax)
     Vl = XVlFreeBoundary(Vl, Vr, order)
     Vr = XVrFreeBoundary(Vl, Vr, ixmax, order)
@@ -20,8 +19,8 @@ def HalfStep(U, V, ixmax, dx, dt, order):
     S = Source(U1)
     for m in range(8):
         for i in range(order-1, ixmax-(order-1)):
-            U1[m][i] = U[m][i] - dt / dx * (F[m][i]-F[m][i-1]) + dt * S[m][i]
-    U1 = XUlFreeBoundary(U1, order)
-    U1 = XUrFreeBoundary(U1, ixmax, order)
-    V = UtoV(U1, V)
-    return U1, V
+            U[m][i] = 0.5 * (U[m][i]+U1[m][i]-dt/dx*(F[m][i]-F[m][i-1])+dt*S[m][i])
+    U = XUlFreeBoundary(U, order)
+    U = XUrFreeBoundary(U, ixmax, order)
+    V = UtoV(U, V)
+    return U, V
