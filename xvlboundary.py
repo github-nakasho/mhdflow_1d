@@ -2,5 +2,5 @@
 
 def XVlFreeBoundary(Vl, Vr, order):
     for m in range(8):
-        Vl[m][0] = Vr[m][0]
+        Vl[m][order-2] = Vr[m][order-2]
     return Vl

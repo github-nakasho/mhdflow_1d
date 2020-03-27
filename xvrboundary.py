@@ -1,6 +1,6 @@
 #!/usr/bin/env/ python3
 
-def XVrFreeBoundary(Vl, Vr, ixmax, order):
+def XVrFreeBoundary(Vl, Vr, ix, order):
     for m in range(8):
-        Vr[m][ixmax-(order-1)-1] = Vl[m][ixmax-(order-1)-1]
+        Vr[m][ix+(order-2)] = Vl[m][ix+(order-2)]
     return Vr

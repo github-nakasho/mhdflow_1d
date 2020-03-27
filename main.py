@@ -2,7 +2,7 @@
 
 import toml
 from grid import Grid
-from initialcondition import DW1aShockTube
+from initialcondition import InitialCondition
 from output import Output
 from setdt import SetDt
 from tvdrk import TVDRK
@@ -16,13 +16,15 @@ if __name__ == '__main__':
                 input_params['region']['x1'], 
                 input_params['region']['x0'])
     # set initial condition
-    U, V = DW1aShockTube(grid['ixmax'], 
-                            input_params['order']['order'])
+    ini = InitialCondition(grid['ixmax'], input_params['order']['order'])
+    U, V = ini.BW()
     # set time step variables
     nstep = 0
     nout = 0
     t = 0.0
     tout = 0.0
+    # make instance of TVDRK
+    tvdrk = TVDRK(input_params['grid']['ix'], grid['dx'], input_params['order']['order'])
     # main loop ----------
     while nstep < input_params['time']['nstop']:
         if t >= tout:
@@ -37,6 +39,7 @@ if __name__ == '__main__':
         print('nstep = '+str(nstep))
         dt = SetDt(V, grid['minlength'], input_params['time']['cfl'])
         print('dt = '+str(dt))
-        U, V = TVDRK(U, V, grid['ixmax'], grid['dx'], dt, input_params['order']['order'])
+        U1, V = tvdrk.HalfStep(U, V, dt)
+        U, V = tvdrk.FullStep(U, U1, V, dt)
         t += dt
     # ---------- main loop
