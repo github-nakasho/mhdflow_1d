@@ -17,7 +17,7 @@ if __name__ == '__main__':
                 input_params['region']['x0'])
     # set initial condition
     ini = InitialCondition(grid['ixmax'], input_params['order']['order'])
-    U, V = ini.BW()
+    U, V = ini.RJ2a()
     # set time step variables
     nstep = 0
     nout = 0

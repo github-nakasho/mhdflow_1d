@@ -17,7 +17,7 @@ class TVDRK:
         self.dx = dx
         self.order = order
         self.ixmax = ix + 2 * (order-1)
-        self.rec = Reconstruct(self.ixmax)
+        self.rec = Reconstruct(self.ix, self.order)
         self.flux = Flux()
     
     def HalfStep(self, U, V, dt):
@@ -26,11 +26,10 @@ class TVDRK:
         order = self.order
         ixmax = self.ixmax
         U1 = np.zeros(U.shape)
-        # Vl, Vr = self.rec.Minmod(V, ix, order, dx, dt)
-        Vl, Vr = self.rec.Ppm(V, ix, order, dx, dt)
+        Vl, Vr = self.rec.Minmod(V)
         Vl = XVlFreeBoundary(Vl, Vr, order)
         Vr = XVrFreeBoundary(Vl, Vr, ix, order)
-        F = self.flux.HLL(Vl, Vr, ix, order)
+        F = self.flux.HLLD(Vl, Vr, ix, order)
         S = Source(U)
         for m in range(8):
             for i in range(order-1, ix+(order-1)):
@@ -45,10 +44,10 @@ class TVDRK:
         dx = self.dx
         order = self.order
         ixmax = self.ixmax
-        Vl, Vr = self.rec.Ppm(V, ix, order, dx, dt)
+        Vl, Vr = self.rec.Minmod(V)
         Vl = XVlFreeBoundary(Vl, Vr, order)
         Vr = XVrFreeBoundary(Vl, Vr, ix, order)
-        F = self.flux.HLL(Vl, Vr, ix, order)
+        F = self.flux.HLLD(Vl, Vr, ix, order)
         S = Source(U1)
         for m in range(8):
             for i in range(order-1, ix+(order-1)):

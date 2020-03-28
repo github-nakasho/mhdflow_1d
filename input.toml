@@ -2,7 +2,7 @@
 ix = 256
 
 [order]
-order = 3
+order = 2
 
 [region]
 x1 = 1.0
@@ -13,7 +13,7 @@ cfl = 0.4
 dtmin = 1.0e-20
 nstop = 1000000
 tint = 0.01
-tstop = 1.0
+tstop = 0.2
 
 [boundary]
 xl = 'free'
