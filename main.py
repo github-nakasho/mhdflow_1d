@@ -8,7 +8,7 @@ from flux import HLL, HLLD
 from grid import Grid
 from initialcondition import InitialCondition
 from output import Output
-from reconstruction import Minmod, Ppm
+from reconstruction import Minmod, MC, VanLeer, Ppm
 from setdt import SetDt
 from tvdrk import TVDRK2
 
@@ -16,9 +16,9 @@ if __name__ == '__main__':
     # set input parameters
     input_params = toml.load(open('input.toml'))
     # set order from reconstruction method
-    if input_params['scheme']['rec'] == 'minmod' or input_params['scheme']['rec'] == 'mc':
+    if input_params['scheme']['rec'] in ['minmod', 'mc', 'vanleer']:
         order = 2
-    elif input_params['scheme']['rec'] == 'ppm' or input_params['scheme']['rec'] == 'ceno':
+    elif input_params['scheme']['rec'] in ['ppm', 'ceno']:
         order = 3
     else:
         sys.exit() 
@@ -30,9 +30,14 @@ if __name__ == '__main__':
                                         input_params['region']['x1'], 
                                         input_params['region']['x0'])
     # make instance of flux
-    flux = HLLD()
+    if input_params['scheme']['flux'] == 'HLL':
+        flux = HLL()
+    elif input_params['scheme']['flux'] == 'HLLD':
+        flux = HLLD()
+    else:
+        sys.exit()
     # make instance of reconstruct
-    rec = Minmod(input_params['grid']['ix'])
+    rec = VanLeer(input_params['grid']['ix'], order)
     # make instance of boundary conditions
     xlbc = LeftFreeBoundary(order)
     xrbc = RightFreeBoundary(input_params['grid']['ix'], order)
@@ -67,3 +72,4 @@ if __name__ == '__main__':
         U, V = tvdrk.time_step(U, V, dt)
         t += dt
     # ---------- main loop
+    

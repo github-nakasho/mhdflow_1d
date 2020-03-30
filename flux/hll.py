@@ -8,7 +8,7 @@ from convert import Convert
 
 class HLL:
     def __init__(self):
-        self.convert = Convert
+        self.convert = Convert()
 
     def make_flux(self, Vl, Vr, ix, order):
         F = np.zeros(Vl.shape)
@@ -34,15 +34,15 @@ class HLL:
         sr = np.maximum(Vl[1], Vr[1]) + np.maximum(vfl, vfr)
         # ---------- propagation speed of Riemann fan
         # compute HLL flux
-        for i in range(order-2, ix+(order-2)+1):
-            if sl[i] > 0:
-                for m in range(8):
-                    F[m][i] = Fl[m][i]
-            elif sr[i] < 0:
-                for m in range(8):
-                    F[m][i] = Fr[m][i]
-            else:
-                for m in range(8):
-                    F[m][i] = (sr[i]*Fl[m][i]-sl[i]*Fr[m][i]+sr[i]*sl[i]*(Ur[m][i]-Ul[m][i])) / (sr[i]-sl[i])
+        # set ta (= true array), fa (=false array)
+        ta1 = sl > 0
+        ta2 = sr < 0
+        ta3 = ta1 | ta2
+        fa = ta3 == False
+        for m in range(8):
+            F[m][ta1] = Fl[m][ta1]
+            F[m][ta2] = Fr[m][ta2]
+            F[m][fa] = (sr[fa]*Fl[m][fa]-sl[fa]*Fr[m][fa]+sr[fa]*sl[fa]*(Ur[m][fa]-Ul[m][fa])) \
+                        / (sr[fa]-sl[fa])
         return F
         
