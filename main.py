@@ -1,30 +1,55 @@
 #!/usr/bin/env/ python3
 
+import sys
 import toml
+
+from boundary import LeftFreeBoundary, RightFreeBoundary
+from flux import HLL, HLLD
 from grid import Grid
 from initialcondition import InitialCondition
 from output import Output
+from reconstruction import Minmod, Ppm
 from setdt import SetDt
-from tvdrk import TVDRK
+from tvdrk import TVDRK2
 
 if __name__ == '__main__':
     # set input parameters
     input_params = toml.load(open('input.toml'))
-    # make grid
-    grid = Grid(input_params['grid']['ix'], 
-                input_params['order']['order'], 
-                input_params['region']['x1'], 
-                input_params['region']['x0'])
+    # set order from reconstruction method
+    if input_params['scheme']['rec'] == 'minmod' or input_params['scheme']['rec'] == 'mc':
+        order = 2
+    elif input_params['scheme']['rec'] == 'ppm' or input_params['scheme']['rec'] == 'ceno':
+        order = 3
+    else:
+        sys.exit() 
+    # make instance of grid
+    grid = Grid()
+    # set static grid
+    cartesian = grid.static_cartesian(input_params['grid']['ix'], 
+                                        order, 
+                                        input_params['region']['x1'], 
+                                        input_params['region']['x0'])
+    # make instance of flux
+    flux = HLLD()
+    # make instance of reconstruct
+    rec = Minmod(input_params['grid']['ix'])
+    # make instance of boundary conditions
+    xlbc = LeftFreeBoundary(order)
+    xrbc = RightFreeBoundary(input_params['grid']['ix'], order)
+    # make instance of TVDRK
+    tvdrk = TVDRK2(flux, rec, xlbc, xrbc, 
+                    input_params['grid']['ix'], 
+                    cartesian['dx'], 
+                    order)
+    # make incetence of initial conditions
+    ini = InitialCondition(input_params['grid']['ix'], order)
     # set initial condition
-    ini = InitialCondition(grid['ixmax'], input_params['order']['order'])
     U, V = ini.RJ2a()
     # set time step variables
     nstep = 0
     nout = 0
     t = 0.0
     tout = 0.0
-    # make instance of TVDRK
-    tvdrk = TVDRK(input_params['grid']['ix'], grid['dx'], input_params['order']['order'])
     # main loop ----------
     while nstep < input_params['time']['nstop']:
         if t >= tout:
@@ -37,9 +62,8 @@ if __name__ == '__main__':
             break
         nstep += 1
         print('nstep = '+str(nstep))
-        dt = SetDt(V, grid['minlength'], input_params['time']['cfl'])
+        dt = SetDt(V, cartesian['minlength'], input_params['time']['cfl'])
         print('dt = '+str(dt))
-        U1, V = tvdrk.HalfStep(U, V, dt)
-        U, V = tvdrk.FullStep(U, U1, V, dt)
+        U, V = tvdrk.time_step(U, V, dt)
         t += dt
     # ---------- main loop

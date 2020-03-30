@@ -1,8 +1,10 @@
 [grid]
 ix = 256
 
-[order]
-order = 2
+[scheme]
+flux = 'HLLD'
+tvdrk = 2
+rec = 'minmod'
 
 [region]
 x1 = 1.0
