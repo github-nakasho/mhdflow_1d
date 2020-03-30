@@ -4,7 +4,7 @@ ix = 256
 [scheme]
 flux = 'HLLD'
 tvdrk = 2
-rec = 'minmod'
+rec = 'ppm'
 
 [region]
 x1 = 1.0

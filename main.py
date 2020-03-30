@@ -37,7 +37,7 @@ if __name__ == '__main__':
     else:
         sys.exit()
     # make instance of reconstruct
-    rec = VanLeer(input_params['grid']['ix'], order)
+    rec = Ppm(input_params['grid']['ix'], order)
     # make instance of boundary conditions
     xlbc = LeftFreeBoundary(order)
     xrbc = RightFreeBoundary(input_params['grid']['ix'], order)

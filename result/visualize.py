@@ -21,6 +21,7 @@ if __name__ == '__main__':
         filename = str(i) + '.txt'
         data = LoadTxt(filename)
         im = plot1d(data, images)
-        images.append(im)
-    ani = animation.ArtistAnimation(fig, images, interval=50, blit=True)
-    ani.save('RJ.mp4', writer='ffmpeg')
+        plt.show()
+    #     images.append(im)
+    # ani = animation.ArtistAnimation(fig, images, interval=50, blit=True)
+    # ani.save('RJ.mp4', writer='ffmpeg')
