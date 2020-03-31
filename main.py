@@ -8,7 +8,7 @@ from flux import HLL, HLLD
 from grid import Grid
 from initialcondition import InitialCondition
 from output import Output
-from reconstruction import Minmod, MC, VanLeer, Ppm
+from reconstruction import Minmod, MC, VanLeer, Ppm, CENO
 from setdt import SetDt
 from tvdrk import TVDRK2
 
@@ -47,7 +47,7 @@ if __name__ == '__main__':
                     cartesian['dx'], 
                     order)
     # make incetence of initial conditions
-    ini = InitialCondition(input_params['grid']['ix'], order)
+    ini = InitialCondition(cartesian['x'], input_params['grid']['ix'], order)
     # set initial condition
     U, V = ini.RJ2a()
     # set time step variables

@@ -1,5 +1,5 @@
 [grid]
-ix = 256
+ix = 200
 
 [scheme]
 flux = 'HLLD'
@@ -11,7 +11,7 @@ x1 = 1.0
 x0 = 0.0
 
 [time]
-cfl = 0.4
+cfl = 0.8
 dtmin = 1.0e-20
 nstop = 1000000
 tint = 0.01
