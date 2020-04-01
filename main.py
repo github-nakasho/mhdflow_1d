@@ -10,7 +10,7 @@ from initialcondition import InitialCondition
 from output import Output
 from reconstruction import Minmod, MC, VanLeer, Ppm, CENO
 from setdt import SetDt
-from tvdrk import TVDRK2
+from tvdrk import TVDRK2, TVDRK3
 
 if __name__ == '__main__':
     # set input parameters
@@ -37,15 +37,21 @@ if __name__ == '__main__':
     else:
         sys.exit()
     # make instance of reconstruct
-    rec = Ppm(input_params['grid']['ix'], order)
+    rec = CENO(input_params['grid']['ix'], order)
     # make instance of boundary conditions
     xlbc = LeftFreeBoundary(order)
     xrbc = RightFreeBoundary(input_params['grid']['ix'], order)
     # make instance of TVDRK
-    tvdrk = TVDRK2(flux, rec, xlbc, xrbc, 
-                    input_params['grid']['ix'], 
-                    cartesian['dx'], 
-                    order)
+    if input_params['scheme']['tvdrk'] == 2:
+        tvdrk = TVDRK2(flux, rec, xlbc, xrbc, 
+                        input_params['grid']['ix'], 
+                        cartesian['dx'], 
+                        order)
+    elif input_params['scheme']['tvdrk'] == 3:
+        tvdrk = TVDRK3(flux, rec, xlbc, xrbc, 
+                        input_params['grid']['ix'], 
+                        cartesian['dx'], 
+                        order)
     # make incetence of initial conditions
     ini = InitialCondition(cartesian['x'], input_params['grid']['ix'], order)
     # set initial condition

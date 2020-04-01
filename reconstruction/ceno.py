@@ -13,7 +13,7 @@ class CENO:
         self.a = np.array([1, 0.7, 1])
 
     def mm(self, a, b):
-        return 0.5 * (np.sign(a)+np.sign(b))*min(abs(a), abs(b))
+        return 0.5 * (np.sign(a)+np.sign(b)) * min(abs(a), abs(b))
 
     def make_rec(self, V):
         ix = self.ix

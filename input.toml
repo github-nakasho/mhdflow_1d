@@ -1,10 +1,10 @@
 [grid]
-ix = 200
+ix = 256
 
 [scheme]
 flux = 'HLLD'
-tvdrk = 2
-rec = 'ppm'
+tvdrk = 3
+rec = 'ceno'
 
 [region]
 x1 = 1.0
