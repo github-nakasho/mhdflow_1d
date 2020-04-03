@@ -7,21 +7,24 @@ class VanLeer:
     def __init__(self, ix, order):
         ixmax = ix + 2 * (order-1)
         self.ix = ix
-        self.Vl = np.zeros((8, ixmax-1))
-        self.Vr = np.zeros((8, ixmax-1))
-
+        self.Wl = np.zeros((8, ixmax-1))
+        self.Wr = np.zeros((8, ixmax-1))
+        
     def make_rec(self, V):
         ix = self.ix
-        Vl = self.Vl
-        Vr = self.Vr
+        Wl = self.Wl
+        Wr = self.Wr
         for m in range(8):
             for i in range(1, ix+1):
-                a = V[m][i] - V[m][i-1]
-                b = V[m][i+1] - V[m][i]
+                w = V[m][i]
+                wp = V[m][i+1]
+                wm = V[m][i-1]
+                a = w - wm
+                b = wp - w
                 if a * b <= 0:
                     grad = 0
                 else:
                     grad = a * b / (a+b)
-                Vl[m][i] = V[m][i] + grad
-                Vr[m][i-1] = V[m][i] - grad
-        return Vl, Vr
+                Wl[m][i] = w + grad
+                Wr[m][i-1] = w - grad
+        return Wl, Wr

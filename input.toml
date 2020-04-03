@@ -4,7 +4,7 @@ ix = 256
 [scheme]
 flux = 'HLLD'
 tvdrk = 3
-rec = 'ceno'
+rec = 'mp5'
 
 [region]
 x1 = 1.0

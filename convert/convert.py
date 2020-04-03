@@ -25,17 +25,17 @@ class Convert:
         V = np.zeros(U.shape)
         gm = self.gm
         gm1 = gm - 1
-        oneorho = 1 / U[0]
+        oneoro = 1 / U[0]
         b2 = U[4] * U[4] + U[5] * U[5] + U[6] * U[6]
         r2v2 = U[1] * U[1] + U[2] * U[2] + U[3] * U[3]
         V[0] = U[0]
-        V[1] = U[1] * oneorho
-        V[2] = U[2] * oneorho
-        V[3] = U[3] * oneorho
+        V[1] = U[1] * oneoro
+        V[2] = U[2] * oneoro
+        V[3] = U[3] * oneoro
         V[4] = U[4]
         V[5] = U[5]
         V[6] = U[6]
-        V[7] = gm1 * (U[7]-0.5*(r2v2*oneorho+b2))
+        V[7] = gm1 * (U[7]-0.5*(r2v2*oneoro+b2))
         return V
 
     def UVtoF(self, U, V, b2, vb):

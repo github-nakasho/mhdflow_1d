@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from characteristic import Characteristic
 from convert import Convert
 from source import Source
 
@@ -16,6 +17,7 @@ class TVDRK3:
         self.dx = dx
         self.order = order
         self.ixmax = ix + 2 * (order-1)
+        self.char = Characteristic(ix, order)
         self.conv = Convert()
 
     def first_step(self, U, V, dt):
