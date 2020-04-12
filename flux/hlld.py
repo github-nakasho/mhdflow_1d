@@ -17,19 +17,19 @@ class HLLD:
         vnl = Vl[1]
         vtl = Vl[2]
         vul = Vl[3]
-        bnc = Vl[4]
-        btl = Vl[5]
-        bul = Vl[6]
-        prl = Vl[7]
+        prl = Vl[4]
+        bnc = Vl[5]
+        btl = Vl[6]
+        bul = Vl[7]
         # set primitive variables @ right-face
         ror = Vr[0]
         vnr = Vr[1]
         vtr = Vr[2]
         vur = Vr[3]
-        bnc = Vr[4]
-        btr = Vr[5]
-        bur = Vr[6]
-        prr = Vr[7]
+        prr = Vr[4]
+        bnc = Vr[5]
+        btr = Vr[6]
+        bur = Vr[7]
         # bn @ the interface
         bnc2 = bnc * bnc
         sgn = np.sign(bnc)

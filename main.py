@@ -8,7 +8,7 @@ from flux import HLL, HLLD
 from grid import Grid
 from initialcondition import InitialCondition
 from output import Output
-from reconstruction import Minmod, MC, VanLeer, Ppm, CENO, MP5
+from reconstruction import Minmod, MC, VanLeer, Ppm, CENO, MP5, WENO5
 from setdt import SetDt
 from tvdrk import TVDRK2, TVDRK3
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     else:
         sys.exit()
     # make instance of reconstruct
-    rec = MP5(input_params['grid']['ix'], order)
+    rec = WENO5(input_params['grid']['ix'], order)
     # make instance of boundary conditions
     xlbc = LeftFreeBoundary(order)
     xrbc = RightFreeBoundary(input_params['grid']['ix'], order)

@@ -14,20 +14,20 @@ class HLL:
         F = np.zeros(Vl.shape)
         gm = Const.GAMMA
         # left side ----------
-        bl2 = Vl[4] * Vl[4] + Vl[5] * Vl[5] + Vl[6] * Vl[6]
-        vlbl = Vl[1] * Vl[4] + Vl[2] * Vl[5] + Vl[3] * Vl[6]
+        bl2 = Vl[5] * Vl[5] + Vl[6] * Vl[6] + Vl[7] * Vl[7]
+        vlbl = Vl[1] * Vl[5] + Vl[2] * Vl[6] + Vl[3] * Vl[7]
         Ul = self.convert.VtoU(Vl)
         Fl = self.convert.UVtoF(Ul, Vl, bl2, vlbl)
-        gmprl = gm * Vl[7]
-        vfl = np.sqrt(((bl2+gmprl)+np.sqrt((bl2+gmprl)*(bl2+gmprl)-4*gmprl*Vl[4]*Vl[4]))/(2*Vl[0]))
+        gmprl = gm * Vl[4]
+        vfl = np.sqrt(((bl2+gmprl)+np.sqrt((bl2+gmprl)*(bl2+gmprl)-4*gmprl*Vl[5]*Vl[5]))/(2*Vl[0]))
         # ---------- left side
         # right side ----------
-        br2 = Vr[4] * Vr[4] + Vr[5] * Vr[5] + Vr[6] * Vr[6]
-        vrbr = Vr[1] * Vr[4] + Vr[2] * Vr[5] + Vr[3] * Vr[6]
+        br2 = Vr[5] * Vr[5] + Vr[6] * Vr[6] + Vr[7] * Vr[7]
+        vrbr = Vr[1] * Vr[5] + Vr[2] * Vr[6] + Vr[3] * Vr[7]
         Ur = self.convert.VtoU(Vr)
         Fr = self.convert.UVtoF(Ur, Vr, br2, vrbr)
-        gmprr = gm * Vr[7]
-        vfr = np.sqrt(((br2+gmprr)+np.sqrt((br2+gmprr)*(br2+gmprr)-4*gmprr*Vr[4]*Vr[4]))/(2*Vr[0]))
+        gmprr = gm * Vr[4]
+        vfr = np.sqrt(((br2+gmprr)+np.sqrt((br2+gmprr)*(br2+gmprr)-4*gmprr*Vr[5]*Vr[5]))/(2*Vr[0]))
         # ----------- right side
         # propagation speed of Riemann fan ----------
         sl = np.minimum(Vl[1], Vr[1]) - np.maximum(vfl, vfr)

@@ -11,8 +11,8 @@ class MP5:
         order = 5
         ixmax = ix + 2 * (order-1)
         self.ix = ix
-        self.Wl = np.zeros((8, ixmax-1))
-        self.Wr = np.zeros((8, ixmax-1))
+        self.Wl = np.zeros((7, ixmax-1))
+        self.Wr = np.zeros((7, ixmax-1))
         self.a = np.array([1, 0.7, 1])
         self.char = Characteristic(ix, order)
 
@@ -35,18 +35,19 @@ class MP5:
         b2 = 4 / 3
         L = self.char.L(V)
         R = self.char.R(V)
-        for m in range(8):
+        Vdel = np.delete(V, obj=5, axis=0)
+        for m in range(7):
             for i in range(4, ix+4):
-                # v = sum([L[i][m][n]*V[n][i] for n in range(8)])
-                # vp1 = sum([L[i][m][n]*V[n][i+1] for n in range(8)])
-                # vp2 = sum([L[i][m][n]*V[n][i+2] for n in range(8)])
-                # vm1 = sum([L[i][m][n]*V[n][i-1] for n in range(8)])
-                # vm2 = sum([L[i][m][n]*V[n][i-2] for n in range(8)])
-                v = V[m][i]
-                vp1 = V[m][i+1]
-                vp2 = V[m][i+2]
-                vm1 = V[m][i-1]
-                vm2 = V[m][i-2]
+                v = sum([L[i][m][n]*Vdel[n][i] for n in range(7)])
+                vp1 = sum([L[i][m][n]*Vdel[n][i+1] for n in range(7)])
+                vp2 = sum([L[i][m][n]*Vdel[n][i+2] for n in range(7)])
+                vm1 = sum([L[i][m][n]*Vdel[n][i-1] for n in range(7)])
+                vm2 = sum([L[i][m][n]*Vdel[n][i-2] for n in range(7)])
+                # v = Vdel[m][i]
+                # vp1 = Vdel[m][i+1]
+                # vp2 = Vdel[m][i+2]
+                # vm1 = Vdel[m][i-1]
+                # vm2 = Vdel[m][i-2]
                 vor = b1 * (2*vm2-13*vm1+47*v+27*vp1-3*vp2)
                 vmp = v + self.mm(vp1-v, alpha*(v-vm1))
                 if (vor-v)*(vor-vmp) < eps:
@@ -81,11 +82,13 @@ class MP5:
                     vmin = max(min(v, vm1, vmd), min(v, vul, vlc))
                     vmax = min(max(v, vm1, vmd), max(v, vul, vlc))
                     Wr[m][i-1] = vor + self.mm(vmin-vor, vmax-vor)
-        # Vl = self.Wl
-        # Vr = self.Wr
-        # for m in range(8):
-        #     for i in range(4, ix+4):
-        #         Vl[m][i] = sum([R[i][m][n]*Wl[n][i] for n in range(8)])
-        #         Vr[m][i-1] = sum([R[i][m][n]*Wr[n][i-1] for n in range(8)])
-        # return Vl, Vr
-        return Wl, Wr
+        Vl = Wl
+        Vr = Wr
+        for m in range(7):
+            for i in range(4, ix+4):
+                Vl[m][i] = sum([R[i][m][n]*Wl[n][i] for n in range(7)])
+                Vr[m][i-1] = sum([R[i][m][n]*Wr[n][i-1] for n in range(7)])
+        Vl = np.insert(Vl, 5, V[5][1:], axis=0)
+        Vr = np.insert(Vr, 5, V[5][1:], axis=0)
+        return Vl, Vr
+        

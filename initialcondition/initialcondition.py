@@ -20,19 +20,19 @@ class InitialCondition:
             V[1][i]=1.2
             V[2][i]=0.01
             V[3][i]=0.5
-            V[4][i]=2.0/np.sqrt(4*np.pi)
-            V[5][i]=3.6/np.sqrt(4*np.pi)
-            V[6][i]=2.0/np.sqrt(4*np.pi)
-            V[7][i]=0.95
+            V[4][i]=0.95
+            V[5][i]=2.0/np.sqrt(4*np.pi)
+            V[6][i]=3.6/np.sqrt(4*np.pi)
+            V[7][i]=2.0/np.sqrt(4*np.pi)
         for i in range(int(ixmax/2), ixmax):
             V[0][i]=1.0
             V[1][i]=0.0
             V[2][i]=0.0
             V[3][i]=0.0
-            V[4][i]=2.0/np.sqrt(4*np.pi)
-            V[5][i]=4.0/np.sqrt(4*np.pi)
-            V[6][i]=2.0/np.sqrt(4*np.pi)
-            V[7][i]=1.0
+            V[4][i]=1.0
+            V[5][i]=2.0/np.sqrt(4*np.pi)
+            V[6][i]=4.0/np.sqrt(4*np.pi)
+            V[7][i]=2.0/np.sqrt(4*np.pi)
         U = self.conv.VtoU(V)
         return U, V
 
@@ -43,20 +43,20 @@ class InitialCondition:
             V[0][i]=1.0
             V[1][i]=0.0
             V[2][i]=0.0
-            V[3][i]=1.0
-            V[4][i]=0.75
-            V[5][i]=1.0
-            V[6][i]=0.0
-            V[7][i]=1.0
+            V[3][i]=0.0
+            V[4][i]=1.0
+            V[5][i]=0.75
+            V[6][i]=1.0
+            V[7][i]=0.0
         for i in range(int(ixmax/2), ixmax):
             V[0][i]=0.125
             V[1][i]=0.0
             V[2][i]=0.0
-            V[3][i]=-1.0
-            V[4][i]=0.75
-            V[5][i]=0.0
-            V[6][i]=0.0
-            V[7][i]=0.1
+            V[3][i]=0.0
+            V[4][i]=0.1
+            V[5][i]=0.75
+            V[6][i]=-1.0
+            V[7][i]=0.0
         U = self.conv.VtoU(V)
         return U, V
 
